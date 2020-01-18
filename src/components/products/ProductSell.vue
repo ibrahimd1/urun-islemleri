@@ -49,5 +49,9 @@
 export default {};
 </script>
 
-<style>
+<style scoped>
+.border-danger {
+  border-style: dashed !important;
+}
+</style>>
 </style>

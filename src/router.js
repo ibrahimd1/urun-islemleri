@@ -1,9 +1,19 @@
-import UrunListesi from "./components/UrunListesi.vue";
-import UrunGirisi from "./components/UrunGirisi.vue";
-import UrunCikisi from "./components/UrunCikisi.vue";
+import ProductList from "./components/products/ProductList.vue"
+import ProductPurchase from "./components/products/ProductPurchase.vue"
+import ProductSell from "./components/products/ProductSell.vue"
+import VueRouter from "vue-router"
+import Vue from "vue"
 
-export const router = [
-  { path: "/", component: UrunListesi },
-  { path: "/urun-islemleri", component: UrunGirisi },
-  { path: "/urun-cikisi", component: UrunCikisi }
-];
+Vue.use(VueRouter)
+
+const routes = [
+	{ path: "/", component: ProductList },
+	{ path: "/urun-islemleri", component: ProductPurchase },
+	{ path: "/urun-cikisi", component: ProductSell },
+	{ path: "*", redirect: "/" }
+]
+
+export const router = new VueRouter({
+	mode: "history",
+	routes
+})
