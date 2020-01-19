@@ -11,25 +11,25 @@
               type="text"
               class="form-control"
               placeholder="Ürün adını giriniz.."
-              v-model="products.productName"
+              v-model="product.title"
             />
           </div>
           <div class="form-group">
             <label>Adet</label>
             <input
-              type="text"
+              type="number"
               class="form-control"
               placeholder="Ürün adetini giriniz.."
-              v-model="products.productCount"
+              v-model="product.count"
             />
           </div>
           <div class="form-group">
             <label>Fiyat</label>
             <input
-              type="text"
+              type="number"
               class="form-control"
               placeholder="Ürün fiyatı giriniz.."
-              v-model="products.productPrice"
+              v-model="product.price"
             />
           </div>
           <div class="form-group">
@@ -39,7 +39,7 @@
               rows="5"
               placeholder="Ürüne ait bir açıklama giriniz..."
               class="form-control"
-              v-model="products.productDescription"
+              v-model="product.description"
             ></textarea>
           </div>
           <hr />
@@ -54,35 +54,26 @@
 export default {
   data() {
     return {
-      products: {
-        productName: null,
-        productCount: null,
-        productPrice: null,
-        productDescription: null
+      product: {
+        title: "",
+        count: null,
+        price: null,
+        description: ""
       }
     };
   },
   methods: {
     saveProduct() {
-      this.$http
-        .post(
-          "https://urun-islemleri-1a6a3.firebaseio.com/product_list.json",
-          this.products
-        )
-        .then(
-          response => {
-            console.log("Ürün başarıyla kaydedildi.");
-            console.log(response);
-          },
-          reason => {
-            console.log("Ürün kaydetme işlemi başarısız.");
-          }
-        );
+      debugger;
+      this.$store.dispatch("saveProduct", this.product).then(
+        response => {
+          console.log(response);
+        },
+        reason => {
+          console.log(reason);
+        }
+      );
     }
-  },
-  beforeRouteLeave(to, from, next) {
-    //engelleme
-    next();
   }
 };
 </script>

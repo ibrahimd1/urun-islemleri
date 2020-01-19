@@ -1,3 +1,5 @@
+import Vue from "vue"
+
 const state = {
 	products: []
 }
@@ -13,9 +15,14 @@ const mutations = {
 	}
 }
 const actions = {
-    initApp({ commit }) { },
-    saveProduct({ commit }, payload) { },
-    sellProduct({commit},payload)
+	initApp({ commit }) {},
+	saveProduct({ commit }, payload) {
+		Vue.http.post(
+			"https://urun-islemleri-1a6a3.firebaseio.com/products.json",
+			payload
+		)
+	},
+	sellProduct({ commit }, payload) {}
 }
 
 export default {
