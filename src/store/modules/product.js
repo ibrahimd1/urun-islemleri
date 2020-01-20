@@ -16,11 +16,24 @@ const mutations = {
 }
 const actions = {
 	initApp({ commit }) {},
-	saveProduct({ commit }, payload) {
-		Vue.http.post(
-			"https://urun-islemleri-1a6a3.firebaseio.com/products.json",
-			payload
-		)
+	saveProduct({ dispatch, commit }, payload) {
+		Vue.http
+			.post(
+				"https://urun-islemleri-1a6a3.firebaseio.com/products.json",
+				payload
+			)
+			.then((response) => {
+				payload.key = response.body.name
+				commit("updateProductList", payload)
+				debugger
+				let tradeResult = {
+					purchase: payload.price,
+					sale: 0,
+					count: payload.count
+				}
+
+				dispatch("setTradeResult", tradeResult)
+			})
 	},
 	sellProduct({ commit }, payload) {}
 }
