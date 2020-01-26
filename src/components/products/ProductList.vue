@@ -5,7 +5,7 @@
         <div class="card-body">
           <h3>Ürün Listesi</h3>
           <hr />
-          <table class="table table-hover table-striped table-bordered" v-if="productList.length>0">
+          <table class="table table-hover table-striped table-bordered" v-if="getProducts.length>0">
             <thead>
               <th>id</th>
               <th>Ürün Adı</th>
@@ -14,14 +14,17 @@
               <th>Açıklama</th>
             </thead>
             <tbody>
-              <tr v-for="product in productList" :key="product.productName">
+              <tr v-for="product in getProducts" :key="product.key">
                 <td class="align-middle text-center">
-                  <span class="badge badge-info">{{product.productId}}</span>
+                  <span class="badge badge-info">{{product.key}}</span>
                 </td>
-                <td class="align-middle text-center">{{product.productName}}</td>
-                <td class="align-middle text-center">{{product.productCount}}</td>
-                <td style="width: 120px;">{{product.productPrice}}</td>
-                <td class="align-middle">{{product.productDescription}}</td>
+                <td class="align-middle text-center">{{product.title}}</td>
+                <td
+                  class="align-middle text-center"
+                  :class="getCountClasses(product.count)"
+                >{{product.count}}</td>
+                <td style="width: 120px;">{{product.price | currency}}</td>
+                <td class="align-middle">{{product.description}}</td>
               </tr>
             </tbody>
           </table>
@@ -37,26 +40,19 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
-  data() {
-    return {
-      productList: []
-    };
+  computed: {
+    ...mapGetters(["getProducts"])
   },
-  created() {
-    this.$http
-      .get("https://urun-islemleri-1a6a3.firebaseio.com/product_list.json")
-      .then(response => response.data)
-      .then(resp => {
-        for (let key in resp) {
-          console.log(key);
-          this.productList.push(resp[key]);
-          this.productList = this.productList.map(x => {
-            return { ...x, productId: key };
-          });
-        }
-        console.log(this.productList);
-      });
+  methods: {
+    getCountClasses(count) {
+      return {
+        "btn-danger text-white": (count == 0) | (count == null),
+        "btn-success text-white": count > 0
+      };
+    }
   }
 };
 </script>
