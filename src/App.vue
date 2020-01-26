@@ -1,7 +1,7 @@
 <template>
   <div>
     <app-header></app-header>
-    <transition name="animation" mode="out-in">
+    <transition name="fade" mode="out-in">
       <router-view></router-view>
     </transition>
     <app-footer></app-footer>
@@ -15,21 +15,29 @@ export default {
   components: {
     appHeader: Header,
     appFooter: Footer
+  },
+  created() {
+    this.$store.dispatch("getTradeResult");
   }
 };
 </script>
 
 <style>
-.animation-enter {
+body {
+  background-color: #a7a0bb5c;
+}
+
+.fade-enter {
   opacity: 0;
 }
-.animation-enter-active {
-  transition: opacity 1s ease;
+.fade-enter-active {
+  transition: opacity 0.3s ease-out;
 }
-.animation-leave {
+.fade-leave {
   opacity: 0;
 }
-.animation-leave-active {
-  transition: opacity 1s ease;
+.fade-leave-active {
+  transition: opacity 0.3s ease-out;
+  opacity: 0;
 }
 </style>

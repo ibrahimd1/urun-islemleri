@@ -43,7 +43,7 @@
             ></textarea>
           </div>
           <hr />
-          <button class="btn btn-primary" @click="saveProduct">Kaydet</button>
+          <button class="btn btn-primary" :disabled="saveEnabled" @click="saveProduct">Kaydet</button>
         </div>
       </div>
     </div>
@@ -58,21 +58,50 @@ export default {
         title: "",
         count: null,
         price: null,
-        description: ""
+        description: "",
+        saveButtonClicked: false
       }
     };
   },
   methods: {
     saveProduct() {
-      debugger;
-      this.$store.dispatch("saveProduct", this.product).then(
-        response => {
-          console.log(response);
-        },
-        reason => {
-          console.log(reason);
-        }
-      );
+      this.saveButtonClicked = true;
+      this.$store.dispatch("saveProduct", this.product);
+    }
+  },
+  computed: {
+    saveEnabled() {
+      if (
+        this.product.title.length > 0 &&
+        this.product.count > 0 &&
+        this.product.price > 0 &&
+        this.product.description.length > 0
+      ) {
+        return false;
+      } else {
+        return true;
+      }
+    }
+  },
+  beforeRouteLeave(to, from, next) {
+    if (
+      (this.product.title.length > 0 ||
+        this.product.count > 0 ||
+        this.product.price > 0 ||
+        this.product.description.length > 0) &&
+      !this.saveButtonClicked
+    ) {
+      if (
+        confirm(
+          "Kaydedilmemiş değişiklikleriniz var. Yine de çıkmak istiyor musunuz?"
+        )
+      ) {
+        next();
+      } else {
+        next(false);
+      }
+    } else {
+      next();
     }
   }
 };
