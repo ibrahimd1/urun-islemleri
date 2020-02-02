@@ -57,7 +57,9 @@
 </template>
 
 <script>
+import { ProductMixin } from "../shared/ProductMixin";
 export default {
+  mixins: [ProductMixin],
   data() {
     return {
       product: {
@@ -86,13 +88,6 @@ export default {
         return false;
       } else {
         return true;
-      }
-    },
-    isLoading() {
-      if (this.saveButtonClicked) {
-        return { display: "block" };
-      } else {
-        return { display: "none" };
       }
     }
   },
